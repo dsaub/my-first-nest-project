@@ -24,6 +24,7 @@ export class EmployeesController {
     }
     @Delete("/:id") 
     destroy(@Param("id") id: string) {
+        
         return this.employeesService.deleteOneEmployee(id);
     }
 }
