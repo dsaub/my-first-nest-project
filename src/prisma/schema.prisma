@@ -19,4 +19,16 @@ model Department {
   name  String  @unique
   phone String 
   email String?
+
+  employees Employee[]
+}
+
+model Employee {
+  DNI String @id
+  name String
+  login String @unique
+  password String
+  department_id Int
+
+  department Department @relation(fields: [department_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
