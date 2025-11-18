@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class EmployeesService {
     constructor(private prisma: PrismaService) {}
@@ -36,12 +36,13 @@ export class EmployeesService {
                 respuesta: `Departamento con id ${employee.department_id} no encontrado`
             }
         }
-        await this.prisma.employee.create({
-            data: employee
-        });
-        return {
-            respuesta: "Empleado creado con exito"
-        }
+        const saltOrRounds = 10;
+        const salt = await bcrypt.genSalt(saltOrRounds);
+        const password = employee.password;
+        const hash = await bcrypt.hash(password, salt);
+        employee.password = hash;
+        await this.prisma.employee.create({data: employee});
+        return {respuesta: "Empleado creado con exito"}
     }
     async updateOneEmployee(DNI, employee) {
         try {

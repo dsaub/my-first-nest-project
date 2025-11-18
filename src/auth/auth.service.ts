@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EmployeesService } from 'src/employees/employees.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
         if (comprobacion.respuesta ===  `Empleado con Login ${login} no encontrado`) return comprobacion;
 
         const employee: any = comprobacion.respuesta;
-        if (employee.password != pass) {
+        if (!bcrypt.compare(employee.password, pass)) {
             throw new UnauthorizedException();
         }
         const { password, ...result} = employee
