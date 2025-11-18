@@ -36,6 +36,9 @@ export class EmployeesService {
                 respuesta: `Departamento con id ${employee.department_id} no encontrado`
             }
         }
+        await this.prisma.employee.create({
+            data: employee
+        });
         return {
             respuesta: "Empleado creado con exito"
         }
