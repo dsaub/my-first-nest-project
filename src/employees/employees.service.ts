@@ -73,4 +73,17 @@ export class EmployeesService {
             }
         }
     }
+    async getOneEmployeeByLogin(login: string) {
+        const employeeFound = await this.prisma.employee.findUnique({
+            where: {
+                login: login
+            }
+        });
+        if (!employeeFound) return {
+            respuesta: `Empleado con Login ${login} no encontrado`
+        }
+        return {
+            respuesta: employeeFound
+        }
+    }
 }
