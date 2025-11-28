@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { find } from 'rxjs';
-import { Departments } from './departments.interface';
+import { Departments } from './departments';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()
@@ -33,14 +33,13 @@ export class DepartmentsService {
 
     async updateOneDepartment(id: string, department: Departments) {
         try {
+            const departmentID = parseInt(id);
             await this.prisma.department.update({
-                where: {id: parseInt(id)},
-                data: department
+                where: {id: departmentID}, data: department
             });
-            return {respuesta: "Departamento actualizado con exito"}
-
+            return {respuesta: `Departamento actualizado con exito`}
         } catch (error) {
-            return {respuesta: "Ha ocurrido un error"}
+            return {respuesta: `Departamento con id ${id} no encontrado`}
         }
         
     }

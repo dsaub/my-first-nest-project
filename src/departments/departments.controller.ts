@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Delete } from '@nestjs/common';
 import { DepartmentsService } from './departments.service';
-import type { Departments } from './departments.interface';
+import type { Departments } from './departments';
 
 @Controller('departments')
 export class DepartmentsController {
@@ -14,12 +14,12 @@ export class DepartmentsController {
         return this.departmentService.getOneDepartment(id);
     }
     @Post()
-    store(@Body() department: Departments) {
-        return this.departmentService.createOneDepartment(department);
+    store(@Body() departmentDTO: Departments) {
+        return this.departmentService.createOneDepartment(departmentDTO);
     }
     @Put("/:id")
-    update(@Param("id") id: string, @Body() department: Departments) {
-        return this.departmentService.updateOneDepartment(id, department);
+    update(@Param("id") id: string, @Body() departmentDTO: Departments) {
+        return this.departmentService.updateOneDepartment(id, departmentDTO);
     }
     @Delete("/:id")
     destroy(@Param("id") id: string) {
